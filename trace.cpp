@@ -10,26 +10,10 @@
 
 #include <iostream>
 
-#if 0
-double hit_sphere(const point3& center, double radius, const ray& r) {
-    // Simplified by replacing b with 2h
-    vec3 oc = r.origin() - center;
-    auto a = dot(r.direction(), r.direction());
-    auto h /* b/2 */ = dot(oc, r.direction());
-    // note that dot(oc,oc) == oc.length_squared() 
-    auto c = oc.length_squared() - radius*radius;
-    auto discriminant = h*h - a*c;
-    if (discriminant < 0) {
-        return -1.0;
-    } else {
-        return (-h - sqrt(discriminant) ) / a;
-    }
-}
-#endif
 
 color ray_color(const ray& r, const hittable& world) {
     hit_record rec;
-    if (world.hit(r,0, infinity, rec)) {
+    if (world.hit(r, interval(0, infinity), rec)) {
         return 0.5 * (rec.normal + color(1, 1, 1));
     }
 
@@ -69,7 +53,7 @@ int main() {
     auto pixel_delta_u = viewport_u / image_width;
     auto pixel_delta_v = viewport_v / image_height;
     auto viewport_upper_left = camera_center - 
-                               vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
+        vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
     auto pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
 
