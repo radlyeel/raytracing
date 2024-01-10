@@ -1,0 +1,8 @@
+Reference:
+https://raytracing.github.io/books/RayTracingInOneWeekend.html
+
+Editor line length = 96
+
+
+REALLY TODO.  Go back through the theory behind the code.  
+
