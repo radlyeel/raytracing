@@ -6,9 +6,9 @@
 class sphere: public hittable {
     public:
         sphere() {}
-        sphere(point3 _center, double _radius) : center(_center), radius(_radius) {};
-        bool hit(const ray& r, interval ray_t, hit_record& rec)
-            const override {
+        sphere(point3 _center, double _radius, shared_ptr<material> _material) : 
+            center(_center), radius(_radius), mat(_material) {}
+        bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
                 vec3 oc = r.origin() - center;
                 auto a = r.direction().length_squared();
                 auto half_b = dot(oc, r.direction());
@@ -31,6 +31,7 @@ class sphere: public hittable {
                 rec.p = r.at(rec.t);
                 vec3 outward_normal = (rec.p - center) / radius;
                 rec.set_face_normal(r, outward_normal);
+                rec.mat = mat;
 
 
                 return true;
@@ -39,5 +40,6 @@ class sphere: public hittable {
     private:
         vec3 center;
         double radius;
+        shared_ptr<material> mat;
 };
 #endif // SPHERE_H
